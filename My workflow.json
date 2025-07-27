@@ -1,0 +1,185 @@
+{
+  "name": "My workflow",
+  "nodes": [
+    {
+      "parameters": {
+        "formTitle": "orders ",
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "Name",
+              "placeholder": "YOUR  NAME"
+            },
+            {
+              "fieldLabel": "Order",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "burger with cheese 🧀 "
+                  },
+                  {
+                    "option": "burger sada"
+                  },
+                  {
+                    "option": "porito"
+                  }
+                ]
+              },
+              "multiselect": true
+            },
+            {
+              "fieldLabel": "price",
+              "fieldType": "number"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.formTrigger",
+      "typeVersion": 2.2,
+      "position": [
+        -176,
+        0
+      ],
+      "id": "072595f7-6904-4980-ba77-152bef8f26d3",
+      "name": "On form submission",
+      "webhookId": "c6583b22-729c-4561-afdc-346d1fe0c7ad"
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1oC5UE31L5Ets42mKSidytHjsaDq05OFXZx_Y5_HIveU",
+          "mode": "list",
+          "cachedResultName": "andary orders",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1oC5UE31L5Ets42mKSidytHjsaDq05OFXZx_Y5_HIveU/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "الورقة1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1oC5UE31L5Ets42mKSidytHjsaDq05OFXZx_Y5_HIveU/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "price ": "={{ $json.price }}",
+            "name ": "={{ $json.Name }}",
+            "orders ": "={{ $json.Order }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "name ",
+              "displayName": "name ",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "orders ",
+              "displayName": "orders ",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "price ",
+              "displayName": "price ",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        160,
+        0
+      ],
+      "id": "5024d888-4f38-4a14-ab3c-371657abb4d0",
+      "name": "Append row in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "9Cd3MOMCye0fZHG5",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "libyalibyans461@gmail.com",
+        "subject": "=new order form {{ $json[\"name \"] }}",
+        "emailType": "text",
+        "message": "=order is  {{ $json[\"orders \"] }}",
+        "options": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        160,
+        -160
+      ],
+      "id": "bd4c5095-1c1c-4190-a9a9-80ce46a3749f",
+      "name": "Send a message",
+      "webhookId": "6bd31a1a-a5cb-468d-a311-e8dd2a6c8c5c",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "G7pK6AlDd8jKtHEO",
+          "name": "Gmail account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "On form submission": {
+      "main": [
+        [
+          {
+            "node": "Append row in sheet",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Append row in sheet": {
+      "main": [
+        []
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "fe8959d7-d1d3-4223-b66f-474df2b74c1e",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "a640c189d6941950c0d254993cf85967539c0f3547ee566ead195be56b0028c2"
+  },
+  "id": "wxL7SrEChntCsoKf",
+  "tags": []
+}
